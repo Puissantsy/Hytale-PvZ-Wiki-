@@ -1168,7 +1168,7 @@ const WIKI_DATA = {
       { icon: "🌻", label: "Plantes",        desc: "Débloquées via les hordes ou les NPC. Élargissent vos stratégies défensives." },
       { icon: "🎉", label: "PvZ Events",     desc: "Débloqués via la progression. Offrent risques et récompenses élevés." },
       { icon: "🏪", label: "Trades NPC",     desc: "Certains échanges se débloquent après avoir terminé des hordes spécifiques." },
-      { icon: "📗", label: "PvZ Book",       desc: "Reflète votre avancement global. De nouvelles pages apparaissent au fil du temps." },
+      { icon: "📗", label: "PvZ Book",       desc: "L'objet le plus important du mod. Reflète votre avancement global. De nouvelles pages apparaissent au fil du temps." },
       { icon: "🍴", label: "Recettes/Craft", desc: "Certaines recettes se débloquent après des hordes ou via les NPC." },
     ]
   },
@@ -1178,8 +1178,8 @@ const WIKI_DATA = {
   ---------------------------------------------------------- */
   items: {
     id: "items",
-    navLabel: "🪙 Items",
-    icon: "🪙",
+    navLabel: "🛠 Items",
+    icon: "🛠",
     title: "Items & Économie",
     subtitle: "Monnaies, ingrédients, nourriture et objets spéciaux",
     callouts: [
@@ -1189,16 +1189,16 @@ const WIKI_DATA = {
     subcategories: ["Monnaies", "Ingrédients", "Tacos & Nourriture", "Récompenses", "Craft", "Spéciaux"],
     entries: [
       {
-        name: "PvZ_Coin",
+        name: "PvZ_CoinCopper",
         subcategory: "Monnaies",
         desc: "Monnaie principale du mod. Obtenue en tuant des zombies ou en réussissant des hordes.",
-        utility: "Échangeable auprès des NPC. Sert à acheter plantes, recettes, items.",
+        utility: "Échangeable auprès de Hydave. Sert à acheter des items.",
         obtention: "Zombies, récompenses de horde",
         rarity: "Commune",
         usages: "Trades NPC, progression",
         npc: "PvZCrazyDave, PvZ_Hydave",
         status: "active",
-        image: null,
+        image: "Image/Items/Autre/PvZ_CoinCopper.png",
         notes: "Monnaie de base. À accumuler dès le début."
       },
       {
@@ -1211,7 +1211,7 @@ const WIKI_DATA = {
         usages: "Craft, Trade",
         npc: "À compléter",
         status: "coming",
-        image: null,
+        image: "./Image/Items/Autre/PvZ_SaucePiquante.png",
         notes: "À compléter"
       },
       {
@@ -1224,21 +1224,8 @@ const WIKI_DATA = {
         usages: "Nourriture, Trade, Buff",
         npc: "PvZCrazyDave",
         status: "coming",
-        image: null,
+        image: "./Image/Items/Autre/PvZ_Tacos2.png",
         notes: "Les ingrédients du taco (ketchup, mayo, fromage, lardons, cordon bleu…) sont à compléter."
-      },
-      {
-        name: "Ketchup",
-        subcategory: "Ingrédients",
-        desc: "Ingrédient de taco. Composant de recette.",
-        utility: "Craft de Taco PvZ",
-        obtention: "À compléter",
-        rarity: "À compléter",
-        usages: "Craft",
-        npc: "À compléter",
-        status: "coming",
-        image: null,
-        notes: "À compléter"
       },
       {
         name: "Récompense de Horde (Caisse)",
@@ -1250,7 +1237,7 @@ const WIKI_DATA = {
         usages: "Ouverture directe",
         npc: "Aucun",
         status: "active",
-        image: null,
+        image: "./Image/Items/Autre/PvZ_CopperPouch.png",
         notes: "Le contenu exact varie selon le niveau de horde. À documenter par horde."
       },
     ]
@@ -1271,37 +1258,27 @@ const WIKI_DATA = {
     ],
     entries: [
       {
-        name: "PvZCrazyDave",
-        role: "NPC principal — vendeur et guide",
-        desc: "Personnage iconique inspiré de Crazy Dave de Plants vs Zombies. Élément central de l'identité du mod. Il vend des plantes, des items et propose des trades avancés.",
-        sells: ["Plantes (déblocables)", "Items PvZ", "Trades de progression", "Recettes (À compléter)"],
-        unlock: "Présent dès le début (trades limités, s'élargissent avec la progression)",
-        integration: "Lié au PvZ Book. Ses trades évoluent selon votre avancement.",
-        status: "active",
-        image: null,
-        notes: "Personnage à mettre en avant dans l'UI. À compléter au fur et à mesure du dev."
-      },
-      {
         name: "PvZ_Hydave",
-        role: "NPC secondaire — échanges spécialisés",
-        desc: "NPC lié à l'univers PvZ du mod. Rôle exact à compléter.",
-        sells: ["À compléter"],
-        unlock: "À compléter",
-        integration: "À compléter",
-        status: "coming",
-        image: null,
-        notes: "À compléter"
+        role: "NPC",
+        desc: "Il vend des items du jeu Hytale (minerai, cuire...), vend aussi des tacos, sa monnaie d'échange est les PvZ_Coins.",
+        integration: "Dans la structure PvZ_CrazyDave voir image",
+        status: "active",
+        image: "./Image/NPC/PvZ_Hydave.png"
       },
       {
         name: "PvZ_Hycrazy",
-        role: "NPC secondaire",
-        desc: "NPC lié à l'univers PvZ du mod. Rôle exact à compléter.",
-        sells: ["À compléter"],
-        unlock: "À compléter",
-        integration: "À compléter",
-        status: "coming",
-        image: null,
-        notes: "À compléter"
+        role: "NPC",
+        desc: "Il vend des items du mod comme des plantes, des PvZ_Events, sa monnaie d'échange est les tacos.",
+        integration: "Dans la structure PvZ_CrazyDave voir image",
+        status: "active",
+        image: "./Image/NPC/PvZ_Hycrazy.png"
+      },
+      {
+        name: "PvZ_CrazyDave",
+        role: "Structure",
+        desc: "Elle contient les NPCs du mod, elle permet d'accéder à tous les échanges du mod.",
+        status: "active",
+        image: "./Image/NPC/PvZ_CrazyDave.png"
       },
     ]
   },
@@ -1403,49 +1380,6 @@ function renderPvzBook() {
   </section>`;
 }
 
-// ——— HORDES ———
-function renderHordes() {
-  const d = WIKI_DATA.hordes;
-  return `<section class="wiki-section" id="section-${d.id}" data-section="${d.id}">
-    ${renderSectionHeader(d.icon, d.title, d.subtitle, d.entries.length + ' hordes')}
-    <div class="overview-block">
-      <h3>${d.overview.title}</h3>
-      <p>${d.overview.text}</p>
-      <ol class="overview-steps">${d.overview.steps.map(s => `<li>${s}</li>`).join('')}</ol>
-    </div>
-    <div class="overview-block">
-      <h3>Mécaniques clés</h3>
-      <table class="unlock-table">
-        <thead><tr><th>Élément</th><th>Détail</th></tr></thead>
-        <tbody>${d.mechanics.map(m => `<tr><td>${m.label}</td><td>${m.value}</td></tr>`).join('')}</tbody>
-      </table>
-    </div>
-    ${d.callouts.map(renderCallout).join('')}
-    <div class="section-header" style="margin-top:2rem">
-      <div class="section-icon" style="font-size:1rem">📋</div>
-      <div><div class="section-title" style="font-size:0.85rem">Fiches Hordes Individuelles</div></div>
-    </div>
-    <div class="cards-grid">
-      ${d.entries.map(e => `
-        <div class="card searchable" data-section="${d.id}">
-          ${renderImage(e.image, e.name)}
-          <div class="card-top">
-            <div class="card-name">${e.name}</div>
-            ${badgeStatus(e.status)}
-          </div>
-          <div class="card-desc">${e.desc}</div>
-          <div class="card-meta">
-            ${renderField('Niveau', e.level)}
-            ${renderField('Contexte', e.context)}
-            ${renderField('Difficulté', e.difficulty)}
-            ${renderField('Déblocage', e.unlock)}
-            ${renderField('Récompenses', e.rewards)}
-            ${e.notes && e.notes !== 'À compléter' ? renderField('Notes', e.notes) : ''}
-          </div>
-        </div>`).join('')}
-    </div>
-  </section>`;
-}
 
 // ——— PLANTES ———
 function renderPlantes() {
@@ -1664,11 +1598,9 @@ function renderSectionHeader(icon, title, subtitle, count) {
    ============================================================ */
 const NAV_SECTIONS = [
   { id: 'pvzbook',    label: WIKI_DATA.pvzbook.navLabel },
-  { id: 'hordes',     label: WIKI_DATA.hordes.navLabel },
   { id: 'plantes',    label: WIKI_DATA.plantes.navLabel },
   { id: 'zombies',    label: WIKI_DATA.zombies.navLabel },
   { id: 'events',     label: WIKI_DATA.events.navLabel },
-  { id: 'progression',label: WIKI_DATA.progression.navLabel },
   { id: 'items',      label: WIKI_DATA.items.navLabel },
   { id: 'npc',        label: WIKI_DATA.npc.navLabel },
 ];
@@ -1758,11 +1690,9 @@ function init() {
   const content = document.getElementById('content');
   content.innerHTML = [
     renderPvzBook(),
-    renderHordes(),
     renderPlantes(),
     renderZombies(),
     renderEvents(),
-    renderProgression(),
     renderItems(),
     renderNpc(),
   ].join('');
