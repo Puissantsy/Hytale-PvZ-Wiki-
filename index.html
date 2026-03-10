@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PvZ Hytale Mod — Wiki Testeur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   VARIABLES & RESET
+   ============================================================ */
+:root {
+  --bg-deep:       #0a0d12;
+  --bg-panel:      #111620;
+  --bg-card:       #161c2a;
+  --bg-card-hover: #1c2438;
+  --border:        #1e2d47;
+  --border-glow:   #2a4a7f;
+
+  --green:         #4ade80;
+  --green-dim:     #1a4030;
+  --yellow:        #fbbf24;
+  --yellow-dim:    #3d2e05;
+  --red:           #f87171;
+  --red-dim:       #3d1010;
+  --blue:          #60a5fa;
+  --blue-dim:      #0e2040;
+  --purple:        #c084fc;
+  --purple-dim:    #2a1040;
+  --orange:        #fb923c;
+  --orange-dim:    #3d1e05;
+  --gray:          #64748b;
+  --gray-dim:      #1e2533;
+
+  --text-primary:  #e2e8f0;
+  --text-secondary:#94a3b8;
+  --text-muted:    #475569;
+
+  --font-title:    'Orbitron', monospace;
+  --font-body:     'Exo 2', sans-serif;
+
+  --radius:        8px;
+  --radius-lg:     14px;
+  --transition:    0.2s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* Scanlines texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+#site-header {
+  background: linear-gradient(135deg, #0a0f1e 0%, #0d1830 50%, #0a1220 100%);
+  border-bottom: 2px solid var(--border-glow);
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 30px rgba(0,60,150,0.25);
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 64px;
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--green), #16a34a);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  box-shadow: 0 0 12px rgba(74,222,128,0.4);
+}
+
+.logo-text {
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--green);
+  text-shadow: 0 0 20px rgba(74,222,128,0.5);
+  line-height: 1.1;
+}
+.logo-sub {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Search bar */
+#search-wrap {
+  flex: 1;
+  max-width: 380px;
+  position: relative;
+}
+#search-input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 0.5rem 1rem 0.5rem 2.8rem;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+#search-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(96,165,250,0.15);
+}
+#search-input::placeholder { color: var(--text-muted); }
+.search-icon {
+  position: absolute;
+  left: 1rem; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+/* Nav */
+#main-nav {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  margin-left: auto;
+  flex-wrap: nowrap;
+}
+.nav-btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.4rem 0.75rem;
+  text-transform: uppercase;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.nav-btn:hover, .nav-btn.active {
+  background: rgba(96,165,250,0.1);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+#app {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ============================================================
+   HERO / INTRO
+   ============================================================ */
+#hero {
+  background: linear-gradient(135deg, #0d1a30 0%, #0a1520 60%, #081010 100%);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 3rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+#hero::before {
+  content: '📖';
+  position: absolute;
+  right: 2rem; top: 50%;
+  transform: translateY(-50%);
+  font-size: 6rem;
+  opacity: 0.06;
+}
+.hero-tag {
+  display: inline-block;
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid var(--green);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 0.25rem 0.9rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.hero-title {
+  font-family: var(--font-title);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: var(--green);
+  text-shadow: 0 0 30px rgba(74,222,128,0.35);
+  margin-bottom: 0.75rem;
+}
+.hero-desc {
+  color: var(--text-secondary);
+  max-width: 680px;
+  font-size: 0.95rem;
+}
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.stat-value {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--yellow);
+}
+.stat-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   SECTION TITLES
+   ============================================================ */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.section-icon {
+  font-size: 1.5rem;
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.section-title {
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+}
+.section-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+.section-count {
+  margin-left: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.7rem;
+  color: var(--text-muted);
+  font-family: var(--font-title);
+}
+
+/* ============================================================
+   CATEGORIES (sections wrapping)
+   ============================================================ */
+.wiki-section {
+  margin-bottom: 3.5rem;
+  animation: fadeInUp 0.4s ease both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   CARDS GRID
+   ============================================================ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+}
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-glow);
+  box-shadow: 0 4px 20px rgba(0,60,150,0.2);
+  transform: translateY(-2px);
+}
+.card-image-wrap {
+  width: 100%;
+  height: 120px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-image-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.card-image-placeholder {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card-image-placeholder span { font-size: 1.5rem; opacity: 0.4; }
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.card-name {
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  flex: 1;
+}
+.card-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.9rem;
+}
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+.card-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin-bottom: 0.5rem;
+}
+.field-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.field-value {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid;
+}
+.badge-active      { background: var(--green-dim);  color: var(--green);  border-color: var(--green);  }
+.badge-coming      { background: var(--blue-dim);   color: var(--blue);   border-color: var(--blue);   }
+.badge-deprecated  { background: var(--gray-dim);   color: var(--gray);   border-color: var(--gray);   }
+.badge-important   { background: var(--yellow-dim); color: var(--yellow); border-color: var(--yellow); }
+.badge-tips        { background: var(--purple-dim); color: var(--purple); border-color: var(--purple); }
+.badge-warning     { background: var(--red-dim);    color: var(--red);    border-color: var(--red);    }
+.badge-horde       { background: var(--orange-dim); color: var(--orange); border-color: var(--orange); }
+
+/* Type badges for plants */
+.badge-attack   { background: #3d0f0f; color: #f87171; border-color: #f87171; }
+.badge-economy  { background: #3d2e05; color: #fbbf24; border-color: #fbbf24; }
+.badge-defense  { background: #0e2040; color: #60a5fa; border-color: #60a5fa; }
+.badge-support  { background: #2a1040; color: #c084fc; border-color: #c084fc; }
+.badge-utility  { background: #1a2010; color: #86efac; border-color: #86efac; }
+
+/* ============================================================
+   CALLOUT BOXES
+   ============================================================ */
+.callout {
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  margin: 1rem 0;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  border-left: 3px solid;
+}
+.callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+.callout-content strong { display: block; margin-bottom: 0.2rem; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.callout-tip     { background: rgba(192,132,252,0.07); border-color: var(--purple); color: var(--text-secondary); }
+.callout-tip strong { color: var(--purple); }
+.callout-warn    { background: rgba(248,113,113,0.07); border-color: var(--red);    color: var(--text-secondary); }
+.callout-warn strong { color: var(--red); }
+.callout-info    { background: rgba(96,165,250,0.07);  border-color: var(--blue);   color: var(--text-secondary); }
+.callout-info strong { color: var(--blue); }
+.callout-coming  { background: rgba(251,191,36,0.07);  border-color: var(--yellow); color: var(--text-secondary); }
+.callout-coming strong { color: var(--yellow); }
+
+/* ============================================================
+   SPECIAL SECTION: PvZ BOOK
+   ============================================================ */
+#section-pvzbook .book-hero {
+  background: linear-gradient(135deg, #0f1f10 0%, #081a10 50%, #0a0f08 100%);
+  border: 2px solid var(--green);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(74,222,128,0.1), inset 0 0 60px rgba(74,222,128,0.03);
+}
+#section-pvzbook .book-hero::after {
+  content: '📗';
+  position: absolute;
+  right: 1.5rem; top: 50%;
+  transform: translateY(-50%);
+  font-size: 5rem;
+  opacity: 0.12;
+}
+.book-hero-title {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--green);
+  text-shadow: 0 0 20px rgba(74,222,128,0.4);
+  margin-bottom: 0.5rem;
+}
+.book-hero-sub {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  max-width: 580px;
+}
+.book-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+.book-feature {
+  background: rgba(74,222,128,0.05);
+  border: 1px solid rgba(74,222,128,0.2);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.book-feature em { color: var(--green); font-style: normal; font-weight: 600; }
+
+/* ============================================================
+   OVERVIEW BLOCK (for Horde, Events, etc.)
+   ============================================================ */
+.overview-block {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.overview-block h3 {
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--yellow);
+  margin-bottom: 0.75rem;
+}
+.overview-block p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+.overview-steps {
+  list-style: none;
+  counter-reset: steps;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.overview-steps li {
+  counter-increment: steps;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.overview-steps li::before {
+  content: counter(steps);
+  background: var(--yellow-dim);
+  color: var(--yellow);
+  border: 1px solid var(--yellow);
+  border-radius: 50%;
+  width: 22px; height: 22px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: var(--font-title);
+}
+
+/* ============================================================
+   FILTER BAR
+   ============================================================ */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.2rem;
+}
+.filter-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.85rem;
+  text-transform: uppercase;
+  transition: all var(--transition);
+}
+.filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+.filter-btn.active {
+  background: var(--blue-dim);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* ============================================================
+   PROGRESS TABLE (Déblocages)
+   ============================================================ */
+.unlock-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.unlock-table th {
+  background: var(--bg-panel);
+  color: var(--text-muted);
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.6rem 1rem;
+  text-align: left;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.unlock-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(30,45,71,0.5);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+.unlock-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+#site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 4rem;
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+#site-footer strong { color: var(--green); }
+
+/* ============================================================
+   SEARCH HIGHLIGHT
+   ============================================================ */
+.search-hidden { display: none !important; }
+mark { background: rgba(251,191,36,0.25); color: var(--yellow); border-radius: 2px; padding: 0 1px; }
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 3px; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  #site-header { padding: 0 1rem; }
+  .header-inner { gap: 0.75rem; height: auto; padding: 0.75rem 0; flex-wrap: wrap; }
+  #search-wrap { max-width: 100%; order: 3; flex: 0 0 100%; }
+  #main-nav { margin-left: 0; overflow-x: auto; padding-bottom: 2px; }
+  #app { padding: 1rem; }
+  #hero { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header id="site-header">
+  <div class="header-inner">
+    <div class="site-logo">
+      <div class="logo-icon">🌱</div>
+      <div>
+        <div class="logo-text">PvZ HYTALE</div>
+        <div class="logo-sub">Wiki Testeur — Documentation du Mod</div>
+      </div>
+    </div>
+
+    <div id="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Rechercher une plante, zombie, item…" autocomplete="off">
+    </div>
+
+    <nav id="main-nav">
+      <!-- Les boutons de navigation sont générés dynamiquement par JS -->
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     APPLICATION PRINCIPALE
+     ============================================================ -->
+<div id="app">
+  <!-- Hero généré par JS -->
+  <div id="hero-container"></div>
+  <!-- Contenu des sections généré par JS -->
+  <div id="content"></div>
+</div>
+
+<footer id="site-footer">
+  <strong>PvZ Hytale Mod</strong> — Wiki Testeur &nbsp;·&nbsp; Généré dynamiquement depuis les données JS &nbsp;·&nbsp; Modifiez <code>WIKI_DATA</code> pour mettre à jour le contenu
+</footer>
+
+
+<script>
+/* ============================================================
+   ██████   ██████  ███    ██ ███    ██ ███████ ███████ ███████
+   ██   ██ ██    ██ ████   ██ ████   ██ ██      ██      ██
+   ██   ██ ██    ██ ██ ██  ██ ██ ██  ██ █████   █████   ███████
+   ██   ██ ██    ██ ██  ██ ██ ██  ██ ██ ██      ██           ██
+   ██████   ██████  ██   ████ ██   ████ ███████ ███████ ███████
+
+   ZONE DE DONNÉES — MODIFIEZ CE BLOC POUR METTRE À JOUR LE WIKI
+   ============================================================ */
+const WIKI_DATA = {
+
+  /* ----------------------------------------------------------
+     MÉTA DU SITE
+  ---------------------------------------------------------- */
+  meta: {
+    title:   "PvZ Hytale Mod — Wiki Testeur",
+    tagline: "Documentation officielle du mod Plants vs Zombies pour Hytale",
+    version: "0.1 — Alpha Testeurs",
+    description: "Ce wiki centralise toutes les informations utiles pour tester le mod PvZ Hytale. Retrouvez ici les systèmes de hordes, les plantes, les zombies, les events, la progression et bien plus encore.",
+    stats: [
+      { value: "8",   label: "Catégories" },
+      { value: "PvZ Book", label: "Hub central" },
+      { value: "α",   label: "Version Alpha" },
+      { value: "WIP", label: "En cours de dev" },
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     SECTION : PvZ BOOK
+     Élément central du mod — à mettre en avant
+  ---------------------------------------------------------- */
+  pvzbook: {
+    id: "pvzbook",
+    navLabel: "📗 PvZ Book",
+    icon: "📗",
+    title: "PvZ Book",
+    subtitle: "Le hub central du mod",
+    description: "Le PvZ Book est l'élément fondateur du mod. Il sert de point d'entrée unique vers tous les systèmes du jeu et guide le joueur tout au long de sa progression.",
+    features: [
+      { icon: "📋", label: "Consulter la progression",      desc: "Active" },
+      { icon: "🌻", label: "Gérer ses plantes",             desc: "Active" },
+      { icon: "⚔️", label: "Accéder aux hordes",            desc: "Active" },
+      { icon: "🎉", label: "Lancer des PvZ Events",         desc: "Active" },
+      { icon: "🏪", label: "Accéder aux trades NPC",        desc: "Active" },
+      { icon: "📖", label: "Pages d'aide intégrées",        desc: "À venir" },
+      { icon: "🏆", label: "Suivi des récompenses",         desc: "À venir" },
+      { icon: "🔓", label: "Tableau des déblocages",        desc: "À venir" },
+    ],
+    callouts: [
+      { type: "info",   icon: "ℹ️", title: "Hub central",     text: "Le PvZ Book est obtenu en début de jeu et doit être conservé précieusement. La plupart des actions importantes du mod passent par lui." },
+      { type: "tip",    icon: "💡", title: "Astuce",           text: "Consultez régulièrement votre PvZ Book pour suivre vos déblocages et anticiper la prochaine horde à compléter." },
+      { type: "coming", icon: "⏳", title: "À venir",          text: "Des pages supplémentaires seront ajoutées au PvZ Book au fur et à mesure du développement du mod." },
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     SECTION : HORDES
+  ---------------------------------------------------------- */
+  hordes: {
+    id: "hordes",
+    navLabel: "⚔️ Hordes",
+    icon: "⚔️",
+    title: "Système de Hordes",
+    subtitle: "Pilier central du gameplay",
+    overview: {
+      title: "Vue d'ensemble",
+      text: "Le système de horde est l'un des piliers principaux du mod. Le joueur lance une horde pour affronter des vagues de zombies et défendre une entité/objectif central. Réussir une horde débloque du contenu et avance la progression globale.",
+      steps: [
+        "Ouvrir le PvZ Book et sélectionner la horde souhaitée.",
+        "Consulter les informations : niveau, statut, récompenses, difficultés.",
+        "Se préparer (plantes, ressources, positionnement).",
+        "Lancer la horde et confirmer le démarrage.",
+        "Défendre l'objectif contre les vagues de zombies.",
+        "Récupérer les récompenses si la horde est réussie.",
+      ]
+    },
+    mechanics: [
+      { label: "Objectif",        value: "Protéger une entité/cible centrale contre les zombies." },
+      { label: "Défense",         value: "Circulaire / 360° — les zombies arrivent de toutes les directions." },
+      { label: "Priorité IA",     value: "Les zombies ciblent la cible centrale en priorité, puis ce qui les gêne." },
+      { label: "Priorité Plantes",value: "Les plantes attaquent en priorité les zombies les plus proches." },
+      { label: "Équilibrage",     value: "Système de ZE (Zombie Equivalent) pour équilibrer les vagues." },
+      { label: "Vagues",          value: "Préparées à l'avance selon le niveau de horde." },
+    ],
+    callouts: [
+      { type: "warn",   icon: "⚠️", title: "Attention",   text: "Si la cible à protéger est détruite, la horde est perdue. Positionnez vos plantes défensives en priorité autour d'elle." },
+      { type: "tip",    icon: "💡", title: "Astuce",       text: "Anticipez les vagues en plaçant des plantes économiques (SunFlower) avant les plantes offensives. Les ressources manquent vite en horde." },
+      { type: "info",   icon: "ℹ️", title: "ZE (Zombie Equivalent)", text: "Le ZE est une valeur interne qui pondère chaque zombie pour équilibrer la difficulté des vagues. Un zombie fort compte pour plusieurs ZE." },
+    ],
+    // Fiches hordes individuelles — ajoutez-en autant que vous voulez
+    entries: [
+      {
+        id: "horde-1-1",
+        name: "Horde 1-1",
+        desc: "Première horde introductive. Idéale pour apprendre les mécaniques de base.",
+        status: "active",
+        level: "1",
+        context: "Monde Default",
+        difficulty: "★☆☆☆☆",
+        unlock: "Disponible dès le début",
+        rewards: "PvZ_Coins, Déblocage PeaShooter",
+        notes: "À compléter",
+        image: null
+      },
+      {
+        id: "horde-1-2",
+        name: "Horde 1-2",
+        desc: "Deuxième horde. Introduit les premiers zombies avec protection.",
+        status: "active",
+        level: "1",
+        context: "Monde Default",
+        difficulty: "★★☆☆☆",
+        unlock: "Terminer Horde 1-1",
+        rewards: "À compléter",
+        notes: "À compléter",
+        image: null
+      },
+      {
+        id: "horde-2-1",
+        name: "Horde 2-1",
+        desc: "Premier palier du niveau 2. Vagues plus intenses, zombies plus résistants.",
+        status: "coming",
+        level: "2",
+        context: "Monde Default",
+        difficulty: "★★★☆☆",
+        unlock: "Terminer toutes les hordes de niveau 1",
+        rewards: "À compléter",
+        notes: "En cours de développement",
+        image: null
+      },
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     SECTION : PLANTES
+  ---------------------------------------------------------- */
+  plantes: {
+    id: "plantes",
+    navLabel: "🌻 Plantes",
+    icon: "🌻",
+    title: "Plantes",
+    subtitle: "Unités défensives et économiques du mod",
+    callouts: [
+      { type: "info", icon: "ℹ️", title: "Deux contextes", text: "Certaines plantes ont un comportement différent selon le contexte (monde default vs instance horde). Coûts, cooldowns et stats peuvent varier." },
+      { type: "tip",  icon: "💡", title: "Conseil de testeur", text: "Testez chaque plante dans les deux contextes et notez vos observations dans le rapport de test." },
+    ],
+    // Champs possibles par fiche plante :
+    // name, desc, type (attack/economy/defense/support/utility),
+    // obtention, unlock, cost, cooldown, usage, image, notes, tips, status
+    entries: [
+      {
+        name: "SunFlower",
+        desc: "Produit des Soleils au fil du temps. Indispensable pour alimenter l'économie de plantes en horde.",
+        type: "economy",
+        obtention: "Disponible dès le début",
+        unlock: "Aucun — plante de départ",
+        cost: "À compléter",
+        cooldown: "À compléter",
+        usage: "Placer en arrière-garde, loin des zombies. Priorité absolue en début de horde.",
+        status: "active",
+        image: null,
+        notes: "Plante économique fondamentale. Ne pas négliger.",
+        tips: "Plusieurs SunFlowers = ressources stables = plus de plantes offensives."
+      },
+      {
+        name: "PeaShooter",
+        desc: "Tire des pois sur les zombies en ligne. Plante offensives de base, fiable et polyvalente.",
+        type: "attack",
+        obtention: "Récompense Horde 1-1",
+        unlock: "Terminer Horde 1-1",
+        cost: "À compléter",
+        cooldown: "À compléter",
+        usage: "Placer face aux couloirs d'approche des zombies.",
+        status: "active",
+        image: null,
+        notes: "Première plante offensive. Idéale pour apprendre le positionnement.",
+        tips: "En horde 360°, placez plusieurs PeaShooters en cercle autour de l'objectif."
+      },
+      {
+        name: "WallNut",
+        desc: "Mur végétal très résistant. Bloque l'avancée des zombies sans attaquer.",
+        type: "defense",
+        obtention: "À compléter",
+        unlock: "À compléter",
+        cost: "À compléter",
+        cooldown: "À compléter",
+        usage: "Positionner devant les SunFlowers et les plantes fragiles pour les protéger.",
+        status: "coming",
+        image: null,
+        notes: "À compléter",
+        tips: "À compléter"
+      },
+      {
+        name: "SnowPea",
+        desc: "Tire des pois glacés qui ralentissent les zombies.",
+        type: "utility",
+        obtention: "À compléter",
+        unlock: "À compléter",
+        cost: "À compléter",
+        cooldown: "À compléter",
+        usage: "Idéale pour ralentir les vagues rapides et offrir plus de temps aux plantes offensives.",
+        status: "coming",
+        image: null,
+        notes: "À compléter",
+        tips: "À compléter"
+      },
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     SECTION : ZOMBIES
+  ---------------------------------------------------------- */
+  zombies: {
+    id: "zombies",
+    navLabel: "🧟 Zombies",
+    icon: "🧟",
+    title: "Zombies",
+    subtitle: "Ennemis du mod — Horde & Monde Default",
+    callouts: [
+      { type: "warn", icon: "⚠️", title: "Séparation des contextes", text: "Certains zombies sont exclusifs à la horde, d'autres au monde default. Vérifiez le champ 'Contexte' sur chaque fiche." },
+    ],
+    filters: ["Tous", "Horde", "Monde Default", "Spéciaux", "Coming Soon"],
+    entries: [
+      {
+        name: "Zombie Normal",
+        desc: "Zombie de base. Lent, peu résistant, dangereux en grand nombre.",
+        role: "Ennemi de base",
+        context: "Horde",
+        behavior: "Marche vers la cible, attaque tout ce qui le gêne.",
+        particularities: "Aucune particularité. Sert de référence pour le ZE.",
+        difficulty: "★☆☆☆☆",
+        loot: "PvZ_Coins (faible)",
+        immunities: "Aucune",
+        tips: "Facile à tuer seul, dangereux en masse. Priorisez la zone control.",
+        status: "active",
+        image: null
+      },
+      {
+        name: "Cône Zombie",
+        desc: "Zombie portant un cône de signalisation en guise de casque. Plus résistant à la tête.",
+        role: "Ennemi standard avec protection",
+        context: "Horde",
+        behavior: "Identique au zombie normal, mais résiste plus longtemps.",
+        particularities: "Protection sur la tête — réduit les dégâts frontaux.",
+        difficulty: "★★☆☆☆",
+        loot: "PvZ_Coins (moyen)",
+        immunities: "Aucune",
+        tips: "Le cône tombe à mi-vie. Après ça, il devient aussi vulnérable qu'un zombie normal.",
+        status: "active",
+        image: null
+      },
+      {
+        name: "Seau Zombie",
+        desc: "Zombie avec un seau en métal sur la tête. Très résistant.",
+        role: "Ennemi résistant",
+        context: "Horde",
+        behavior: "Identique au zombie normal, beaucoup plus de PV.",
+        particularities: "Seau en métal — forte réduction des dégâts.",
+        difficulty: "★★★☆☆",
+        loot: "PvZ_Coins (élevé)",
+        immunities: "Résistance partielle au gel (À confirmer)",
+        tips: "Concentrez plusieurs plantes dessus. Ne le laissez pas approcher seul.",
+        status: "active",
+        image: null
+      },
+      {
+        name: "Zombie de Monde",
+        desc: "Zombie errant dans le monde default. Comportement adapté à l'exploration.",
+        role: "Ennemi de monde ouvert",
+        context: "Monde Default",
+        behavior: "Patrouillle ou agro le joueur à l'approche.",
+        particularities: "Peut droper du loot spécifique au monde default.",
+        difficulty: "★☆☆☆☆",
+        loot: "À compléter",
+        immunities: "Aucune",
+        tips: "À compléter",
+        status: "active",
+        image: null
+      },
+      {
+        name: "Zombie Spécial (Boss ?)",
+        desc: "Zombie rare ou puissant lié à un event ou une horde avancée.",
+        role: "Ennemi élite / boss",
+        context: "Spéciaux",
+        behavior: "À compléter",
+        particularities: "À compléter",
+        difficulty: "★★★★★",
+        loot: "À compléter",
+        immunities: "À compléter",
+        tips: "À compléter",
+        status: "coming",
+        image: null
+      },
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     SECTION : PvZ EVENTS
+  ---------------------------------------------------------- */
+  events: {
+    id: "events",
+    navLabel: "🎉 Events",
+    icon: "🎉",
+    title: "PvZ Events",
+    subtitle: "Événements spéciaux déclenchables",
+    overview: {
+      title: "Qu'est-ce qu'un PvZ Event ?",
+      text: "Les PvZ Events sont des événements spéciaux qui modifient le gameplay en faisant apparaître des zombies inhabituels ou en déclenchant des situations particulières. Ils sont débloquables et peuvent être lancés manuellement. Attention : ils peuvent être dangereux mais offrent de meilleures récompenses.",
+      steps: [
+        "Débloquer l'event en progressant dans les hordes ou la progression globale.",
+        "Accéder à l'event via le PvZ Book.",
+        "Lire les avertissements et vérifier le cooldown.",
+        "Confirmer le lancement de l'event.",
+        "Survivre à l'event et récupérer les récompenses.",
+      ]
+    },
+    mechanics: [
+      { label: "Déclenchement",  value: "Manuel, via le PvZ Book (confirmation requise)." },
+      { label: "Cooldown",       value: "Oui — impossible de relancer immédiatement après." },
+      { label: "Simultanéité",   value: "Probablement limité à un event actif à la fois (À confirmer)." },
+      { label: "Risques",        value: "Les events font apparaître des zombies plus dangereux." },
+      { label: "Récompenses",    value: "Meilleures que les hordes normales." },
+      { label: "Déblocage",      value: "Certains events doivent être débloqués avant d'être disponibles." },
+    ],
+    callouts: [
+      { type: "warn",   icon: "⚠️", title: "Attention",       text: "Un PvZ Event mal préparé peut se solder par une défaite rapide. Préparez vos défenses avant de le déclencher." },
+      { type: "tip",    icon: "💡", title: "Conseil",          text: "Lancez un event seulement si vous avez suffisamment de plantes déployées et de ressources pour réagir vite." },
+      { type: "coming", icon: "⏳", title: "À venir",          text: "De nouveaux events seront ajoutés au fil du développement du mod." },
+    ],
+    entries: [
+      {
+        name: "Event Alpha Test",
+        desc: "Premier event disponible pour les testeurs. Sert à valider le système.",
+        unlock: "Terminer Horde 1-2",
+        cooldown: "À compléter",
+        risks: "Zombies plus nombreux et plus rapides.",
+        rewards: "À compléter",
+        tips: "À compléter",
+        status: "active",
+        image: null
+      },
+      {
+        name: "Event Horde Intense",
+        desc: "Un event qui déclenche une vague massive et intense de zombies variés.",
+        unlock: "À compléter",
+        cooldown: "À compléter",
+        risks: "Zombies élites et spéciaux potentiels.",
+        rewards: "Récompenses rares. À compléter.",
+        tips: "À compléter",
+        status: "coming",
+        image: null
+      },
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     SECTION : PROGRESSION & DÉBLOCAGES
+  ---------------------------------------------------------- */
+  progression: {
+    id: "progression",
+    navLabel: "🏆 Progression",
+    icon: "🏆",
+    title: "Progression & Déblocages",
+    subtitle: "Comment avancer dans le mod",
+    callouts: [
+      { type: "info", icon: "ℹ️", title: "Logique de progression", text: "La progression repose principalement sur les hordes. Chaque horde réussie peut débloquer une plante, un event, un niveau de horde supérieur ou des trades chez les NPC." },
+    ],
+    unlockTable: [
+      { source: "Horde 1-1 (Réussie)",   unlocks: "PeaShooter, Accès Horde 1-2",          type: "Plante + Horde" },
+      { source: "Horde 1-2 (Réussie)",   unlocks: "Event Alpha Test, Trades NPC Niveau 1", type: "Event + Trade" },
+      { source: "Toutes Hordes Niv.1",   unlocks: "Accès Horde 2-1",                       type: "Horde" },
+      { source: "Progression PvZ Book",  unlocks: "À compléter",                            type: "Divers" },
+      { source: "Trade NPC Crazy Dave",  unlocks: "À compléter",                            type: "Trade" },
+    ],
+    progressionSystems: [
+      { icon: "⚔️", label: "Hordes",        desc: "Source principale de progression. Chaque victoire ouvre de nouveaux contenus." },
+      { icon: "🌻", label: "Plantes",        desc: "Débloquées via les hordes ou les NPC. Élargissent vos stratégies défensives." },
+      { icon: "🎉", label: "PvZ Events",     desc: "Débloqués via la progression. Offrent risques et récompenses élevés." },
+      { icon: "🏪", label: "Trades NPC",     desc: "Certains échanges se débloquent après avoir terminé des hordes spécifiques." },
+      { icon: "📗", label: "PvZ Book",       desc: "Reflète votre avancement global. De nouvelles pages apparaissent au fil du temps." },
+      { icon: "🍴", label: "Recettes/Craft", desc: "Certaines recettes se débloquent après des hordes ou via les NPC." },
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     SECTION : ITEMS & ÉCONOMIE
+  ---------------------------------------------------------- */
+  items: {
+    id: "items",
+    navLabel: "🪙 Items",
+    icon: "🪙",
+    title: "Items & Économie",
+    subtitle: "Monnaies, ingrédients, nourriture et objets spéciaux",
+    callouts: [
+      { type: "info", icon: "ℹ️", title: "Économie du mod", text: "Le mod ajoute une économie propre avec des monnaies, des ingrédients et des objets à crafter ou à échanger auprès des NPC." },
+      { type: "tip",  icon: "💡", title: "PvZ_Coins",       text: "Les PvZ_Coins sont la monnaie principale du mod. Ils tombent sur les zombies et servent d'échange auprès des NPC." },
+    ],
+    subcategories: ["Monnaies", "Ingrédients", "Tacos & Nourriture", "Récompenses", "Craft", "Spéciaux"],
+    entries: [
+      {
+        name: "PvZ_Coin",
+        subcategory: "Monnaies",
+        desc: "Monnaie principale du mod. Obtenue en tuant des zombies ou en réussissant des hordes.",
+        utility: "Échangeable auprès des NPC. Sert à acheter plantes, recettes, items.",
+        obtention: "Zombies, récompenses de horde",
+        rarity: "Commune",
+        usages: "Trades NPC, progression",
+        npc: "PvZCrazyDave, PvZ_Hydave",
+        status: "active",
+        image: null,
+        notes: "Monnaie de base. À accumuler dès le début."
+      },
+      {
+        name: "Épice (générique)",
+        subcategory: "Ingrédients",
+        desc: "Ingrédient utilisé dans des recettes ou des crafts liés au mod.",
+        utility: "Craft de nourriture, échanges NPC",
+        obtention: "À compléter",
+        rarity: "À compléter",
+        usages: "Craft, Trade",
+        npc: "À compléter",
+        status: "coming",
+        image: null,
+        notes: "À compléter"
+      },
+      {
+        name: "Taco PvZ",
+        subcategory: "Tacos & Nourriture",
+        desc: "Nourriture spéciale du mod. Peut servir de consommable ou d'item de trade.",
+        utility: "Consommable / buff, échange NPC",
+        obtention: "Craft (ingrédients : À compléter)",
+        rarity: "Peu commune",
+        usages: "Nourriture, Trade, Buff",
+        npc: "PvZCrazyDave",
+        status: "coming",
+        image: null,
+        notes: "Les ingrédients du taco (ketchup, mayo, fromage, lardons, cordon bleu…) sont à compléter."
+      },
+      {
+        name: "Ketchup",
+        subcategory: "Ingrédients",
+        desc: "Ingrédient de taco. Composant de recette.",
+        utility: "Craft de Taco PvZ",
+        obtention: "À compléter",
+        rarity: "À compléter",
+        usages: "Craft",
+        npc: "À compléter",
+        status: "coming",
+        image: null,
+        notes: "À compléter"
+      },
+      {
+        name: "Récompense de Horde (Caisse)",
+        subcategory: "Récompenses",
+        desc: "Contient des PvZ_Coins et potentiellement des objets rares selon la horde.",
+        utility: "Récompense principale de fin de horde",
+        obtention: "Réussite d'une horde",
+        rarity: "Variable selon la horde",
+        usages: "Ouverture directe",
+        npc: "Aucun",
+        status: "active",
+        image: null,
+        notes: "Le contenu exact varie selon le niveau de horde. À documenter par horde."
+      },
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     SECTION : NPC & TRADES
+  ---------------------------------------------------------- */
+  npc: {
+    id: "npc",
+    navLabel: "🧑‍🌾 NPC",
+    icon: "🧑‍🌾",
+    title: "NPC & Trades",
+    subtitle: "Personnages importants et échanges du mod",
+    callouts: [
+      { type: "important", icon: "⭐", title: "PvZCrazyDave", text: "PvZCrazyDave est le personnage iconique central du mod. Il représente l'identité visuelle et narrative du projet." },
+      { type: "info",      icon: "ℹ️", title: "Déblocages",  text: "Certains trades NPC ne sont disponibles qu'après avoir progressé dans les hordes. Le PvZ Book reflète vos accès disponibles." },
+    ],
+    entries: [
+      {
+        name: "PvZCrazyDave",
+        role: "NPC principal — vendeur et guide",
+        desc: "Personnage iconique inspiré de Crazy Dave de Plants vs Zombies. Élément central de l'identité du mod. Il vend des plantes, des items et propose des trades avancés.",
+        sells: ["Plantes (déblocables)", "Items PvZ", "Trades de progression", "Recettes (À compléter)"],
+        unlock: "Présent dès le début (trades limités, s'élargissent avec la progression)",
+        integration: "Lié au PvZ Book. Ses trades évoluent selon votre avancement.",
+        status: "active",
+        image: null,
+        notes: "Personnage à mettre en avant dans l'UI. À compléter au fur et à mesure du dev."
+      },
+      {
+        name: "PvZ_Hydave",
+        role: "NPC secondaire — échanges spécialisés",
+        desc: "NPC lié à l'univers PvZ du mod. Rôle exact à compléter.",
+        sells: ["À compléter"],
+        unlock: "À compléter",
+        integration: "À compléter",
+        status: "coming",
+        image: null,
+        notes: "À compléter"
+      },
+      {
+        name: "PvZ_Hycrazy",
+        role: "NPC secondaire",
+        desc: "NPC lié à l'univers PvZ du mod. Rôle exact à compléter.",
+        sells: ["À compléter"],
+        unlock: "À compléter",
+        integration: "À compléter",
+        status: "coming",
+        image: null,
+        notes: "À compléter"
+      },
+    ]
+  },
+
+}; // FIN DE WIKI_DATA
+
+
+/* ============================================================
+   UTILITAIRES
+   ============================================================ */
+
+// Retourne le HTML d'un badge selon le statut
+function badgeStatus(status) {
+  const map = {
+    active:     ['badge-active',     '● Actif'],
+    coming:     ['badge-coming',     '◌ Coming Soon'],
+    deprecated: ['badge-deprecated', '✕ Deprecated'],
+    important:  ['badge-important',  '★ Important'],
+    tips:       ['badge-tips',       '💡 Tips'],
+    warning:    ['badge-warning',    '⚠ Attention'],
+    horde:      ['badge-horde',      '⚔ Horde'],
+  };
+  const [cls, label] = map[status] || map['active'];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+// Retourne le HTML d'un badge de type (pour plantes)
+function badgeType(type) {
+  const map = {
+    attack:  ['badge-attack',  '⚔ Attaque'],
+    economy: ['badge-economy', '☀ Économie'],
+    defense: ['badge-defense', '🛡 Défense'],
+    support: ['badge-support', '💜 Support'],
+    utility: ['badge-utility', '🔧 Utilitaire'],
+  };
+  const [cls, label] = map[type] || ['badge-active', type];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+// Retourne le HTML d'un callout
+function renderCallout({ type, icon, title, text }) {
+  const cls = {
+    tip: 'callout-tip', warn: 'callout-warn',
+    info: 'callout-info', coming: 'callout-coming', important: 'callout-info'
+  }[type] || 'callout-info';
+  return `<div class="callout ${cls}">
+    <span class="callout-icon">${icon}</span>
+    <div class="callout-content"><strong>${title}</strong>${text}</div>
+  </div>`;
+}
+
+// Retourne le HTML d'une image ou d'un placeholder
+function renderImage(src, alt) {
+  return `<div class="card-image-wrap">${
+    src
+      ? `<img src="${src}" alt="${alt || ''}">`
+      : `<div class="card-image-placeholder"><span>🖼</span>Image à venir</div>`
+  }</div>`;
+}
+
+// Retourne le HTML d'un champ label/valeur
+function renderField(label, value) {
+  if (!value) return '';
+  return `<div class="card-field">
+    <span class="field-label">${label}</span>
+    <span class="field-value">${value}</span>
+  </div>`;
+}
+
+/* ============================================================
+   RENDU DES SECTIONS
+   ============================================================ */
+
+function renderHero() {
+  const m = WIKI_DATA.meta;
+  return `<div id="hero">
+    <div class="hero-tag">Wiki Testeur — Mod Hytale</div>
+    <div class="hero-title">${m.title}</div>
+    <div class="hero-desc">${m.description}</div>
+    <div class="hero-stats">
+      ${m.stats.map(s => `<div class="hero-stat"><div class="stat-value">${s.value}</div><div class="stat-label">${s.label}</div></div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ——— PvZ BOOK ———
+function renderPvzBook() {
+  const d = WIKI_DATA.pvzbook;
+  return `<section class="wiki-section" id="section-${d.id}" data-section="${d.id}">
+    ${renderSectionHeader(d.icon, d.title, d.subtitle)}
+    <div class="book-hero">
+      <div class="book-hero-title">📗 ${d.title} — Hub Central du Mod</div>
+      <div class="book-hero-sub">${d.description}</div>
+      <div class="book-features">
+        ${d.features.map(f => `<div class="book-feature"><span>${f.icon}</span><span><em>${f.label}</em> — ${f.desc}</span></div>`).join('')}
+      </div>
+    </div>
+    ${d.callouts.map(renderCallout).join('')}
+  </section>`;
+}
+
+// ——— HORDES ———
+function renderHordes() {
+  const d = WIKI_DATA.hordes;
+  return `<section class="wiki-section" id="section-${d.id}" data-section="${d.id}">
+    ${renderSectionHeader(d.icon, d.title, d.subtitle, d.entries.length + ' hordes')}
+    <div class="overview-block">
+      <h3>${d.overview.title}</h3>
+      <p>${d.overview.text}</p>
+      <ol class="overview-steps">${d.overview.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+    </div>
+    <div class="overview-block">
+      <h3>Mécaniques clés</h3>
+      <table class="unlock-table">
+        <thead><tr><th>Élément</th><th>Détail</th></tr></thead>
+        <tbody>${d.mechanics.map(m => `<tr><td>${m.label}</td><td>${m.value}</td></tr>`).join('')}</tbody>
+      </table>
+    </div>
+    ${d.callouts.map(renderCallout).join('')}
+    <div class="section-header" style="margin-top:2rem">
+      <div class="section-icon" style="font-size:1rem">📋</div>
+      <div><div class="section-title" style="font-size:0.85rem">Fiches Hordes Individuelles</div></div>
+    </div>
+    <div class="cards-grid">
+      ${d.entries.map(e => `
+        <div class="card searchable" data-section="${d.id}">
+          ${renderImage(e.image, e.name)}
+          <div class="card-top">
+            <div class="card-name">${e.name}</div>
+            ${badgeStatus(e.status)}
+          </div>
+          <div class="card-desc">${e.desc}</div>
+          <div class="card-meta">
+            ${renderField('Niveau', e.level)}
+            ${renderField('Contexte', e.context)}
+            ${renderField('Difficulté', e.difficulty)}
+            ${renderField('Déblocage', e.unlock)}
+            ${renderField('Récompenses', e.rewards)}
+            ${e.notes && e.notes !== 'À compléter' ? renderField('Notes', e.notes) : ''}
+          </div>
+        </div>`).join('')}
+    </div>
+  </section>`;
+}
+
+// ——— PLANTES ———
+function renderPlantes() {
+  const d = WIKI_DATA.plantes;
+  return `<section class="wiki-section" id="section-${d.id}" data-section="${d.id}">
+    ${renderSectionHeader(d.icon, d.title, d.subtitle, d.entries.length + ' plantes')}
+    ${d.callouts.map(renderCallout).join('')}
+    <div class="cards-grid">
+      ${d.entries.map(e => `
+        <div class="card searchable" data-section="${d.id}">
+          ${renderImage(e.image, e.name)}
+          <div class="card-top">
+            <div class="card-name">${e.name}</div>
+            ${badgeStatus(e.status)}
+          </div>
+          <div class="card-meta" style="margin-bottom:0.6rem">${badgeType(e.type)}</div>
+          <div class="card-desc">${e.desc}</div>
+          <div class="card-meta">
+            ${renderField('Obtention', e.obtention)}
+            ${renderField('Déblocage', e.unlock)}
+            ${renderField('Coût', e.cost)}
+            ${renderField('Cooldown', e.cooldown)}
+            ${renderField('Usage', e.usage)}
+            ${e.notes && e.notes !== 'À compléter' ? renderField('Notes', e.notes) : ''}
+          </div>
+          ${e.tips && e.tips !== 'À compléter' ? renderCallout({type:'tip', icon:'💡', title:'Astuce', text: e.tips}) : ''}
+        </div>`).join('')}
+    </div>
+  </section>`;
+}
+
+// ——— ZOMBIES ———
+function renderZombies() {
+  const d = WIKI_DATA.zombies;
+  let activeFilter = 'Tous';
+
+  const filterBar = `<div class="filter-bar" id="zombie-filters">
+    ${d.filters.map(f => `<button class="filter-btn${f === 'Tous' ? ' active' : ''}" data-filter="${f}">${f}</button>`).join('')}
+  </div>`;
+
+  return `<section class="wiki-section" id="section-${d.id}" data-section="${d.id}">
+    ${renderSectionHeader(d.icon, d.title, d.subtitle, d.entries.length + ' zombies')}
+    ${d.callouts.map(renderCallout).join('')}
+    ${filterBar}
+    <div class="cards-grid" id="zombie-grid">
+      ${d.entries.map(e => `
+        <div class="card searchable" data-section="${d.id}" data-context="${e.context}" data-status="${e.status}">
+          ${renderImage(e.image, e.name)}
+          <div class="card-top">
+            <div class="card-name">${e.name}</div>
+            ${badgeStatus(e.status)}
+          </div>
+          <div class="card-meta" style="margin-bottom:0.6rem">
+            <span class="badge badge-horde">${e.context}</span>
+          </div>
+          <div class="card-desc">${e.desc}</div>
+          <div class="card-meta">
+            ${renderField('Rôle', e.role)}
+            ${renderField('Difficulté', e.difficulty)}
+            ${renderField('Comportement', e.behavior)}
+            ${renderField('Particularités', e.particularities)}
+            ${renderField('Loot', e.loot)}
+            ${renderField('Immunités', e.immunities)}
+          </div>
+          ${e.tips && e.tips !== 'À compléter' ? renderCallout({type:'tip', icon:'💡', title:'Conseil', text: e.tips}) : ''}
+        </div>`).join('')}
+    </div>
+  </section>`;
+}
+
+// ——— EVENTS ———
+function renderEvents() {
+  const d = WIKI_DATA.events;
+  return `<section class="wiki-section" id="section-${d.id}" data-section="${d.id}">
+    ${renderSectionHeader(d.icon, d.title, d.subtitle, d.entries.length + ' events')}
+    <div class="overview-block">
+      <h3>${d.overview.title}</h3>
+      <p>${d.overview.text}</p>
+      <ol class="overview-steps">${d.overview.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+    </div>
+    <div class="overview-block">
+      <h3>Mécaniques</h3>
+      <table class="unlock-table">
+        <thead><tr><th>Élément</th><th>Détail</th></tr></thead>
+        <tbody>${d.mechanics.map(m => `<tr><td>${m.label}</td><td>${m.value}</td></tr>`).join('')}</tbody>
+      </table>
+    </div>
+    ${d.callouts.map(renderCallout).join('')}
+    <div class="cards-grid">
+      ${d.entries.map(e => `
+        <div class="card searchable" data-section="${d.id}">
+          ${renderImage(e.image, e.name)}
+          <div class="card-top">
+            <div class="card-name">${e.name}</div>
+            ${badgeStatus(e.status)}
+          </div>
+          <div class="card-desc">${e.desc}</div>
+          <div class="card-meta">
+            ${renderField('Déblocage', e.unlock)}
+            ${renderField('Cooldown', e.cooldown)}
+            ${renderField('Risques', e.risks)}
+            ${renderField('Récompenses', e.rewards)}
+          </div>
+          ${e.tips && e.tips !== 'À compléter' ? renderCallout({type:'tip', icon:'💡', title:'Conseil', text: e.tips}) : ''}
+        </div>`).join('')}
+    </div>
+  </section>`;
+}
+
+// ——— PROGRESSION ———
+function renderProgression() {
+  const d = WIKI_DATA.progression;
+  return `<section class="wiki-section" id="section-${d.id}" data-section="${d.id}">
+    ${renderSectionHeader(d.icon, d.title, d.subtitle)}
+    ${d.callouts.map(renderCallout).join('')}
+    <div class="overview-block">
+      <h3>Systèmes de progression</h3>
+      <div class="book-features" style="margin-top:0.75rem">
+        ${d.progressionSystems.map(s => `<div class="book-feature"><span>${s.icon}</span><span><em>${s.label}</em> — ${s.desc}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="overview-block">
+      <h3>Tableau des déblocages (extrait)</h3>
+      <table class="unlock-table">
+        <thead><tr><th>Source</th><th>Ce qui est débloqué</th><th>Type</th></tr></thead>
+        <tbody>${d.unlockTable.map(r => `<tr><td>${r.source}</td><td>${r.unlocks}</td><td><span class="badge badge-active" style="font-size:0.6rem">${r.type}</span></td></tr>`).join('')}</tbody>
+      </table>
+    </div>
+  </section>`;
+}
+
+// ——— ITEMS & ÉCONOMIE ———
+function renderItems() {
+  const d = WIKI_DATA.items;
+  return `<section class="wiki-section" id="section-${d.id}" data-section="${d.id}">
+    ${renderSectionHeader(d.icon, d.title, d.subtitle, d.entries.length + ' items')}
+    ${d.callouts.map(renderCallout).join('')}
+    <div class="filter-bar">
+      ${d.subcategories.map(s => `<button class="filter-btn" data-item-filter="${s}">${s}</button>`).join('')}
+      <button class="filter-btn active" data-item-filter="Tous">Tous</button>
+    </div>
+    <div class="cards-grid" id="items-grid">
+      ${d.entries.map(e => `
+        <div class="card searchable" data-section="${d.id}" data-subcat="${e.subcategory}">
+          ${renderImage(e.image, e.name)}
+          <div class="card-top">
+            <div class="card-name">${e.name}</div>
+            ${badgeStatus(e.status)}
+          </div>
+          <div class="card-meta" style="margin-bottom:0.6rem">
+            <span class="badge badge-tips">${e.subcategory}</span>
+          </div>
+          <div class="card-desc">${e.desc}</div>
+          <div class="card-meta">
+            ${renderField('Utilité', e.utility)}
+            ${renderField('Obtention', e.obtention)}
+            ${renderField('Rareté', e.rarity)}
+            ${renderField('Usages', e.usages)}
+            ${renderField('NPC concerné', e.npc)}
+            ${e.notes && e.notes !== 'À compléter' ? renderField('Notes', e.notes) : ''}
+          </div>
+        </div>`).join('')}
+    </div>
+  </section>`;
+}
+
+// ——— NPC & TRADES ———
+function renderNpc() {
+  const d = WIKI_DATA.npc;
+  return `<section class="wiki-section" id="section-${d.id}" data-section="${d.id}">
+    ${renderSectionHeader(d.icon, d.title, d.subtitle, d.entries.length + ' NPC')}
+    ${d.callouts.map(renderCallout).join('')}
+    <div class="cards-grid">
+      ${d.entries.map(e => `
+        <div class="card searchable" data-section="${d.id}">
+          ${renderImage(e.image, e.name)}
+          <div class="card-top">
+            <div class="card-name">${e.name}</div>
+            ${badgeStatus(e.status)}
+          </div>
+          <div class="card-meta" style="margin-bottom:0.6rem">
+            <span class="badge badge-important">${e.role}</span>
+          </div>
+          <div class="card-desc">${e.desc}</div>
+          <div class="card-meta">
+            ${renderField('Déblocage', e.unlock)}
+            ${renderField('Intégration', e.integration)}
+          </div>
+          ${e.sells && e.sells.length ? `
+            <div class="card-field" style="margin-top:0.5rem">
+              <span class="field-label">Vend / Propose</span>
+              <ul style="list-style:none;margin-top:0.2rem;display:flex;flex-direction:column;gap:0.2rem">
+                ${e.sells.map(s => `<li style="font-size:0.78rem;color:var(--text-secondary);padding-left:0.5rem;border-left:2px solid var(--border-glow)">› ${s}</li>`).join('')}
+              </ul>
+            </div>` : ''}
+          ${e.notes && e.notes !== 'À compléter' ? renderCallout({type:'info', icon:'📝', title:'Notes', text: e.notes}) : ''}
+        </div>`).join('')}
+    </div>
+  </section>`;
+}
+
+// ——— HEADER DE SECTION ———
+function renderSectionHeader(icon, title, subtitle, count) {
+  return `<div class="section-header">
+    <div class="section-icon">${icon}</div>
+    <div>
+      <div class="section-title">${title}</div>
+      ${subtitle ? `<div class="section-subtitle">${subtitle}</div>` : ''}
+    </div>
+    ${count ? `<div class="section-count">${count}</div>` : ''}
+  </div>`;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+const NAV_SECTIONS = [
+  { id: 'pvzbook',    label: WIKI_DATA.pvzbook.navLabel },
+  { id: 'hordes',     label: WIKI_DATA.hordes.navLabel },
+  { id: 'plantes',    label: WIKI_DATA.plantes.navLabel },
+  { id: 'zombies',    label: WIKI_DATA.zombies.navLabel },
+  { id: 'events',     label: WIKI_DATA.events.navLabel },
+  { id: 'progression',label: WIKI_DATA.progression.navLabel },
+  { id: 'items',      label: WIKI_DATA.items.navLabel },
+  { id: 'npc',        label: WIKI_DATA.npc.navLabel },
+];
+
+function buildNav() {
+  const nav = document.getElementById('main-nav');
+  NAV_SECTIONS.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn';
+    btn.textContent = s.label;
+    btn.dataset.target = `section-${s.id}`;
+    btn.addEventListener('click', () => {
+      document.getElementById(`section-${s.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      nav.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+    nav.appendChild(btn);
+  });
+}
+
+/* ============================================================
+   FILTRES ZOMBIES
+   ============================================================ */
+function bindZombieFilters() {
+  const bar = document.getElementById('zombie-filters');
+  if (!bar) return;
+  bar.addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('#zombie-grid .card').forEach(card => {
+      if (filter === 'Tous') { card.style.display = ''; return; }
+      if (filter === 'Coming Soon') { card.style.display = card.dataset.status === 'coming' ? '' : 'none'; return; }
+      card.style.display = card.dataset.context === filter ? '' : 'none';
+    });
+  });
+}
+
+/* ============================================================
+   FILTRES ITEMS
+   ============================================================ */
+function bindItemFilters() {
+  document.querySelectorAll('[data-item-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-item-filter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.itemFilter;
+      document.querySelectorAll('#items-grid .card').forEach(card => {
+        card.style.display = (filter === 'Tous' || card.dataset.subcat === filter) ? '' : 'none';
+      });
+    });
+  });
+}
+
+/* ============================================================
+   RECHERCHE
+   ============================================================ */
+function bindSearch() {
+  const input = document.getElementById('search-input');
+  input.addEventListener('input', () => {
+    const query = input.value.trim().toLowerCase();
+    document.querySelectorAll('.searchable').forEach(card => {
+      if (!query) { card.classList.remove('search-hidden'); return; }
+      const text = card.textContent.toLowerCase();
+      card.classList.toggle('search-hidden', !text.includes(query));
+    });
+    // Masquer les sections entièrement vides
+    document.querySelectorAll('.wiki-section').forEach(section => {
+      if (!query) { section.style.display = ''; return; }
+      const visible = [...section.querySelectorAll('.searchable')].some(c => !c.classList.contains('search-hidden'));
+      const hasOtherContent = section.querySelectorAll('.overview-block, .book-hero, .unlock-table').length > 0;
+      section.style.display = (visible || hasOtherContent) ? '' : 'none';
+    });
+  });
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init() {
+  // Hero
+  document.getElementById('hero-container').innerHTML = renderHero();
+
+  // Sections
+  const content = document.getElementById('content');
+  content.innerHTML = [
+    renderPvzBook(),
+    renderHordes(),
+    renderPlantes(),
+    renderZombies(),
+    renderEvents(),
+    renderProgression(),
+    renderItems(),
+    renderNpc(),
+  ].join('');
+
+  // Navigation
+  buildNav();
+
+  // Filtres
+  bindZombieFilters();
+  bindItemFilters();
+
+  // Recherche
+  bindSearch();
+
+  // Active nav on scroll
+  const sections = document.querySelectorAll('.wiki-section');
+  const navBtns  = document.querySelectorAll('.nav-btn');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id.replace('section-', '');
+        navBtns.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.target === `section-${id}`);
+        });
+      }
+    });
+  }, { threshold: 0.25 });
+  sections.forEach(s => observer.observe(s));
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
